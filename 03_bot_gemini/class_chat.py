@@ -27,10 +27,22 @@ class Janela_chat():
                                     foreground = "orange")
         self.label_titulo.pack(pady= 20)
 
+        self.campo_entrada = ttk.Entry(self.janela, width=50)
+        self.campo_entrada.pack(pady=5)
+
+
+
+    
+        self.st = ttk.ScrolledText(self.janela, height=10, wrap="word")
+        self.st.pack(pady=10,padx=10,fill="both",expand = True)
+        
 
         ttk.Button (self.janela,
                     text="Enviar",
-                    style="danger").pack(pady=20)
+                    style="danger",
+                    command=self.responder).pack(pady=20)
+        
+
         
         label_resposta = ttk.Label (self.janela,
                                     text= "RESPOSTA",
@@ -38,13 +50,17 @@ class Janela_chat():
         label_resposta.pack(pady=(20,0))
 
     #crinado o objeto robo(instanciando uma class)
-        self.robo = Gemini_Bot
+        self.robo = Gemini_Bot()
 
 
     def responder (self):
-        pergunta = self.entry_pergunta.get()
-        resposta = self.robo.enviar_mensagem (pergunta)
+        pergunta = self.campo_entrada.get()
+        resposta = self.robo.enviar_mensagem(pergunta)
         self.label_resposta.config(text=resposta)
+
+
+        self.st.delete ("1.0", tkk.END)
+        self.st.insert("1.0", resposta)
 
 
     

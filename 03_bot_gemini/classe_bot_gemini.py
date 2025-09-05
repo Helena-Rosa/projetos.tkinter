@@ -4,7 +4,7 @@ class Gemini_Bot:
     """Classe responsável por gerenciar o modelo do Gemini."""
     
     def __init__(self):
-        genai.configure(api_key="AIzaSyAwxjTXssSQ9gLXB-Q9QlATJYTk78bpE0g")
+        genai.configure(api_key="AIzaSyDBoTTE06H5ADrvPqwDbqLH_piX3jt0NoQ")
         
         instrucao_sistema = """
             Você é um especialista em confeitaria, principalmemte em brownie com 15 anos de experiência.
