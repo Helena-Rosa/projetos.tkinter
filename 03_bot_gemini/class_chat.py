@@ -43,7 +43,9 @@ class Janela_chat():
 
     def responder (self):
         pergunta = self.entry_pergunta.get()
-        self.robo.enviar_mensagem (pergunta)
+        resposta = self.robo.enviar_mensagem (pergunta)
+        self.label_resposta.config(text=resposta)
+
 
     
     
