@@ -1,4 +1,5 @@
-import ttkbootstrap as ttk 
+
+import ttkbootstrap  as ttk 
 from classe_bot_gemini import Gemini_Bot
 class Janela_chat():
     def __init__(self):

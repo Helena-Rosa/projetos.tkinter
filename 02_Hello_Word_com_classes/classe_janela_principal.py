@@ -12,7 +12,7 @@ class Janela_principal:
 
 
 
-    # Define o tamanho para 800x600 e a posição inicial
+        # Define o tamanho para 800x600 e a posição inicial
         self.janela.geometry("800x600+100+50")
 
         #Colocando iconi na janela
@@ -29,14 +29,14 @@ class Janela_principal:
         self.label_titulo.pack(pady=50)
 
 
-    # caixa para digitar o seu nome
+        # caixa para digitar o seu nome
         self.label_nome = tk.Label(self.janela,
                             text= "Seja Bem Vindo!")
 
         self.label_nome.pack(pady=10)
 
 
-    #Botão para o programa desejar bom dia 
+        #Botão para o programa desejar bom dia 
         self.label_nome = tk.Label(self.janela,
                             text= "Digite seu nome:" )
         self.label_nome.pack(pady=10)
