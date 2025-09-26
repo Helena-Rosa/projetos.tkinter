@@ -9,18 +9,25 @@ class Logar():
         self.janela.title ("Login")
         self.janela.geometry("500x500")
 
-        label_adicionar = tk.Label (self.janela,
+
+        # função para criar uma segunda janela (minha lista de tarefas)
+        label_janela = tk.Label (self.janela,
                                             text= "Minha Lista de Tarefa",
                                             font=("success", 15))
-        label_adicionar.pack()
+        label_janela.pack()
     
+
+        #função para criar um botão 
         frame_botao = tk.Frame()
         frame_botao.pack (pady=(25,0)) 
 
 
+        #função que da "estrutura" ao botão (adicionar)
         self.adicionar = tk.Button(frame_botao,text="ADICIONAR",command=self.adicionar)
         self.adicionar.pack(side="left", padx= 20)
 
+
+        #
         self.entrada = tk.Entry(frame_botao, width=50)
         self.entrada.pack(side="right")
 
@@ -38,6 +45,8 @@ class Logar():
 
         self.cocluir = tk.Button(frame_botao,text="Concluir", command=self.botao_concluir)
         self.cocluir.pack(side="left", padx= 100)
+
+
 
     def adicionar(self):
         dado = self.entrada.get()
