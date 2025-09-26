@@ -12,7 +12,7 @@ class Login():
         #criando uma janela 
         self.janela = tk.Tk()
         self.janela.title ("Login")
-        self.janela.geometry("400x400")
+        self.janela.geometry("500x500")
 
 
         #texto para escrever as informações de comando (usuario)
