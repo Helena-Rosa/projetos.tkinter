@@ -1,4 +1,5 @@
 import tkinter as tk
+import sqlite3
 
 # classe que criar a segunda pagina do login
 class Logar():
@@ -46,11 +47,64 @@ class Logar():
         self.cocluir = tk.Button(frame_botao,text="Concluir", command=self.botao_concluir)
         self.cocluir.pack(side="left", padx= 100)
 
+        
+        #conectando o banco de dados 
+        conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
+
+        #criando um cursor, responsavel por comandas o bando de dados
+        cursor= conexao.cursor()
+
+        sql_para_criar_tabela = """
+                                        CREATE TABLE IF NOT EXISTS tarefa (
+                                        codigo integer primary key autoincrement,
+                                        descricao_tarefa varchar (200)
+                                        );
+                                """
+        cursor.execute(sql_para_criar_tabela)
+
+        #comitei as alterações
+        conexao.commit()      
+
+        #fechei a conexão
+        cursor.close()  
+        conexao.close()        
+
+
+
+        #Atualizar a lista
+        conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
+
+        cursor= conexao.cursor()
+
+        sql_para_criar_tabela = """select codigo, descricao_tarefa from tabela;"""
+        
+        cursor.execute(sql_para_criar_tabela)
+
+        lista_de_tarefas = cursor.fetchall()
+
+        cursor.close()  
+        conexao.close()  
 
 
     def adicionar(self):
         dado = self.entrada.get()
         self.caixa.insert(tk.END,dado)
+
+        conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
+
+        cursor= conexao.cursor()
+
+        #aqui vai o sql do insert
+        sql_insert = f"""
+                        INSERT INTO tarefa (descricao_tarefa) 
+                        VALUES (?)
+                     """
+        
+        cursor.execute(sql_insert,[dado])
+        
+        conexao.commit()
+        cursor.close()
+        conexao.close()
 
     def excluir_item(self):
         escolhido=self.caixa.curselection()
@@ -60,11 +114,12 @@ class Logar():
     def botao_concluir (self):
         selecionado = self.caixa.curselection()
         self.caixa.itemconfig(selecionado[0], {"bg": "green"})
-         
+    
+    
 
     # função que mantei a pagina aberta 
-        def run (self):
-            self.janela.mainloop()
+    def run (self):
+        self.janela.mainloop()
 
 
 if __name__ =="__main__":
