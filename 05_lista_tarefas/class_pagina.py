@@ -69,8 +69,9 @@ class Logar():
         cursor.close()  
         conexao.close()        
 
+        self.atualizar_lista()
 
-
+    def atualizar_lista(self):
         #Atualizar a lista
         conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
 
@@ -110,9 +111,19 @@ class Logar():
         cursor.close()
         conexao.close()
 
+
     def excluir_item(self):
         escolhido=self.caixa.curselection()
         self.caixa.delete(escolhido)
+        
+        
+        conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
+
+        cursor= conexao.cursor()
+
+        cursor.execute ("delecte from descricao_tabela where id=?,[1]")
+
+        
 
 
     def botao_concluir (self):
