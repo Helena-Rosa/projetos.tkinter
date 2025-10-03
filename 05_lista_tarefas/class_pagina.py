@@ -76,7 +76,7 @@ class Logar():
 
         cursor= conexao.cursor()
 
-        sql_para_criar_tabela = """select codigo, descricao_tarefa from tabela;"""
+        sql_para_criar_tabela = """select codigo, descricao_tarefa from tarefa;"""
         
         cursor.execute(sql_para_criar_tabela)
 
@@ -84,6 +84,10 @@ class Logar():
 
         cursor.close()  
         conexao.close()  
+
+        #inserindo os itens na listbox
+        for linha in lista_de_tarefas:
+            self.caixa.insert("end",linha [1])
 
 
     def adicionar(self):
