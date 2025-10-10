@@ -44,8 +44,8 @@ class Logar():
         self.excluir = tk.Button(frame_botao,text="Excluir",command=self.excluir_item)
         self.excluir.pack(side="left", padx= 100)
 
-        self.cocluir = tk.Button(frame_botao,text="Concluir", command=self.botao_concluir)
-        self.cocluir.pack(side="left", padx= 100)
+        self.concluir = tk.Button(frame_botao,text="Concluir", command=self.botao_concluir)
+        self.concluir.pack(side="left", padx= 100)
 
         
         #conectando o banco de dados 
@@ -57,7 +57,8 @@ class Logar():
         sql_para_criar_tabela = """
                                         CREATE TABLE IF NOT EXISTS tarefa (
                                         codigo integer primary key autoincrement,
-                                        descricao_tarefa varchar (200)
+                                        descricao_tarefa varchar (200),
+                                        conclusao boolean
                                         );
                                 """
         cursor.execute(sql_para_criar_tabela)
@@ -114,21 +115,41 @@ class Logar():
 
     def excluir_item(self):
         escolhido=self.caixa.curselection()
+        self.texto = self.caixa.get(escolhido)
         self.caixa.delete(escolhido)
-        
-        
         conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
 
-        cursor= conexao.cursor()
+        cursor = conexao.cursor()
 
-        cursor.execute ("delecte from descricao_tabela where id=?,[1]")
-
+        cursor.execute ("DELETE FROM tarefa WHERE descricao_tarefa = (?)", (self.texto,))
+        conexao.commit()
+        conexao.close()
         
 
 
     def botao_concluir (self):
         selecionado = self.caixa.curselection()
         self.caixa.itemconfig(selecionado[0], {"bg": "green"})
+        
+        
+        #daqui para baixo é a função para jogar no banco de dados
+        conclusao = selecionado[0] + 1
+        conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
+
+        cursor= conexao.cursor()
+
+        #aqui vai o sql do insert
+        sql_insert = f"""
+                        UPDATE tarefa
+                        SET conclusao = 1
+                        WHERE codigo = ?
+                     """
+        
+        cursor.execute(sql_insert,[conclusao])
+        
+        conexao.commit()
+        cursor.close()
+        conexao.close()
     
     
 
