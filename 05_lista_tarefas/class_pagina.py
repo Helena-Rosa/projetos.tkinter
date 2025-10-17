@@ -1,13 +1,15 @@
 import tkinter as tk
 import sqlite3
+from class_login import Login
 
 # classe que criar a segunda pagina do login
+
 class Logar():
     def __init__(self):
         
         # função que mostra a segunda pagina (janela)
         self.janela = tk.Tk()
-        self.janela.title ("Login")
+        self.janela.title ("Janela_pai")
         self.janela.geometry("500x500")
 
 
@@ -68,9 +70,21 @@ class Logar():
 
         #fechei a conexão
         cursor.close()  
-        conexao.close()        
+        conexao.close()    
+
+
+        #abrindo a janela de login
+        Login(self.janela)    
+
+
+        #Escondendo a janela da lista tarefas
+        self.janela.withdraw()
+
+        
 
         self.atualizar_lista()
+
+        
 
     def atualizar_lista(self):
         #Atualizar a lista

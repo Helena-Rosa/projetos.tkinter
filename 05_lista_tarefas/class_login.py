@@ -1,18 +1,24 @@
 import tkinter as tk 
 from tkinter import messagebox
-from class_pagina import Logar
+
 
 
 #criando uma classe
 class Login():
-    def __init__(self):
+    def __init__(self, janela_pai):
 
 
+        #Estou tranformando o 
+        self.janela_pai = janela_pai
 
         #criando uma janela 
-        self.janela = tk.Tk()
+        self.janela = tk.Toplevel(janela_pai)
         self.janela.title ("Login")
         self.janela.geometry("500x500")
+
+
+        #configurando para que quando feche a janela de login ele encerre o programa
+        self.janela.protocol("WM_DELETE_WINDOW", self.sair)
 
 
         #texto para escrever as informações de comando (usuario)
@@ -43,7 +49,7 @@ class Login():
 
 
         #função do botão 
-        frame_botao = tk.Frame()
+        frame_botao = tk.Frame(self.janela)
         frame_botao.pack () 
 
 
@@ -64,14 +70,16 @@ class Login():
         #função que informa qual é o usurio correto e a senha correta e a mensagem que aparece se estiver certo
         if usuario== "Helena Rosa" and senha == "12345":
             messagebox.showinfo("LOGIN","LOGIN EFETUADO")
+            self.janela.destroy()
+            self.janela_pai.deiconify()
 
 
             # para fechar a primeira pagina 
             self.janela.destroy()
 
             # para chamar a classe da outra pagina
-            logar= Logar()
-            logar.run()
+            #logar= Logar()
+            #logar.run()
 
 
         # se o login estiver errado 
