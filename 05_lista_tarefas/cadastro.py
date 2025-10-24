@@ -63,10 +63,11 @@ class Janela_cadastro():
         cursor.execute("""
                     CREATE TABLE IF NOT EXISTS usuario (
                         nome VARCHAR(80),
-                        usuario VARCHAR (20) primary key,
+                        usuario VARCHAR(20) primary key,
                         senha VARCHAR(20)
                     );
                     """)
+        
         
         #comito a transação
         conexao.commit()

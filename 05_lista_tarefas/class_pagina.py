@@ -83,26 +83,15 @@ class Logar():
 
         
 
-        self.atualizar_lista()
 
         
 
     def atualizar_lista(self):
         #Atualizar a lista
 
-        usuario_nome = (self.login.get())
-        usuario_senha = (self.login.get())
-        conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
+        conexao = sqlite3.connect("./bd_lista_tarefas.sqlite")
 
-        cursor= conexao.cursor()
-        cursor.execute(
-            """
-        select nome, usuario FROM usuario
-                WHERE usuario = ? and senha = ?;
-            """,
-            [usuario_nome, usuario_senha] 
-        )
-
+        cursor = conexao.cursor()
         sql_para_criar_tabela = """select codigo, descricao_tarefa from tarefa;"""
         
         cursor.execute(sql_para_criar_tabela)

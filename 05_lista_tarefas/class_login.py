@@ -1,6 +1,7 @@
 import tkinter as tk 
 from tkinter import messagebox
 from cadastro import Janela_cadastro
+import sqlite3
 
 
 
@@ -71,11 +72,24 @@ class Login():
     def verificacao(self):
         usuario=  self.campo_usuario.get()
         senha = self.campo_senha.get()
-        cadastro = self.campo_cadastro.get()
+
+        conexao= sqlite3.connect("./bd_lista_tarefa.sqlite")
+
+        cursor= conexao.cursor()
+        cursor.execute(
+            """
+            select nome, usuario FROM usuario
+                WHERE usuario = ? and senha = ?;
+            """,
+            [usuario, senha])
+
+        resultado = cursor.fetchone()
+
+        conexao.close()
 
 
         #função que informa qual é o usurio correto e a senha correta e a mensagem que aparece se estiver certo
-        if usuario== "Helena Rosa" and senha == "12345":
+        if resultado:
             messagebox.showinfo("LOGIN","LOGIN EFETUADO")
             self.janela.destroy()
             self.janela_pai.deiconify()
