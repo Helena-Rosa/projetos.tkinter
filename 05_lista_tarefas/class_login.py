@@ -1,5 +1,6 @@
 import tkinter as tk 
 from tkinter import messagebox
+from cadastro import Janela_cadastro
 
 
 
@@ -19,8 +20,7 @@ class Login():
 
         #configurando para que quando feche a janela de login ele encerre o programa
         self.janela.protocol("WM_DELETE_WINDOW", self.sair)
-
-
+       
         #texto para escrever as informações de comando (usuario)
         usuario= label_usuario = tk.Label (self.janela,
                                         text= "Usuário:",
@@ -54,17 +54,24 @@ class Login():
 
 
         #função botão para LOGAR, comando de verificação para ver se esta certo e a posição que o botão LOGAR esta posicionado
-        tk.Button(frame_botao,text="LOGAR",command= self.verificacao).pack(side="left",pady= 40, padx=20 )
+        self.botao_teste = tk.Button(frame_botao,text="LOGAR",command= self.verificacao).pack(side="left",pady= 40, padx=20 )
 
         #função botão para SAIR, comando par confirmar se deseja sair mesmo e a posição que o botão SAIR esta posicionado
-        tk.Button(frame_botao,text="SAIR", command=self.sair).pack(side="right", pady= 40, padx=20  )       
-        
+        tk.Button(frame_botao,text="SAIR", command=self.sair).pack(side="right", pady= 40, padx=20  )  
+
+
+        tk.Button(frame_botao, text="CADASTRO", command=self.abrir_tela_cadastro).pack(side="right", pady= 40, padx=20  )  
+    
+    def run (self):
+        self.janela.mainloop
+
 
                                  
     #função para verificar se o usuario e senha estãos certos                      
     def verificacao(self):
         usuario=  self.campo_usuario.get()
         senha = self.campo_senha.get()
+        cadastro = self.campo_cadastro.get()
 
 
         #função que informa qual é o usurio correto e a senha correta e a mensagem que aparece se estiver certo
@@ -88,14 +95,22 @@ class Login():
         
 
     #função que confirma se voce deseja realmente sair  
-    def sair(self): 
-        sair=messagebox.askquestion("SAIR", "VOCÊ DESEJA MESMO SAIR?")
 
+
+
+
+    def abrir_tela_cadastro(self):
+        Janela_cadastro(self.janela_pai)
+
+        
 
         #função que confirma que voce realmente quer sair
+    def sair(self): 
+        sair=messagebox.askquestion("SAIR", "VOCÊ DESEJA MESMO SAIR?")
         if sair== "yes":
             exit()
-             
+            
+   
 
 #função para manter a janela aberta 
     def run (self):

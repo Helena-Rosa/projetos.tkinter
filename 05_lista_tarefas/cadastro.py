@@ -1,15 +1,18 @@
 import ttkbootstrap as ttk
 import sqlite3
+import tkinter
+import tkinter.messagebox
 
 
 class Janela_cadastro():
 
-    def _init_(self, janela_pai):
+    def __init__(self, janela_pai):
 
 
 
         #Criando a janela filha
         self.janela_cadastro = ttk.Toplevel(janela_pai)
+    
 
 
         #Criando o titulo
@@ -22,9 +25,8 @@ class Janela_cadastro():
                   text="Digite seu nome completo").pack()
         
         #Criando a caixa do texto do nome 
-        caixinha_nome = ttk.Entry(self.janela_cadastro)
-        caixinha_nome.pack()
-
+        self.caixinha_nome = ttk.Entry(self.janela_cadastro)
+        self.caixinha_nome.pack()
 
 
        #Label do Usuario
@@ -32,9 +34,8 @@ class Janela_cadastro():
                   text="Digite seu ususario").pack()
         
         #Criando a caixa do texto do usuario 
-        caixinha_usuario = ttk.Entry(self.janela_cadastro)
-        caixinha_usuario.pack()
-
+        self.caixinha_usuario = ttk.Entry(self.janela_cadastro)
+        self.caixinha_usuario.pack()
 
 
 
@@ -43,26 +44,28 @@ class Janela_cadastro():
                   text="Digite sua senha").pack()
         
         #Criando a caixa do texto da senha
-        caixinha_senha = ttk.Entry(self.janela_cadastro)
-        caixinha_senha.pack()
+        self.caixinha_senha = ttk.Entry(self.janela_cadastro)
+        self.caixinha_senha.pack()
 
         #botão
-        ttk.Button(self.janela_cadastro, text= "Cadastar").pack()
+        ttk.Button(self.janela_cadastro, text= "Cadastar", command=self.inserir_usuario).pack()
 
-        def criar_tabela_usuario():
-            #Conectando ao banco de dados 
-            conexao= sqlite3.connect ("./bd_lista_tarefas.sqlite")
+        self.criar_tabela_usuario()
+
+    def criar_tabela_usuario(self):
+        #Conectando ao banco de dados 
+        conexao= sqlite3.connect ("./bd_lista_tarefa.sqlite")
 
         #criar cursor
         cursor = conexao.cursor()
 
         #Execultar o comando
         cursor.execute("""
-                    CREATE TABLE usuario (
+                    CREATE TABLE IF NOT EXISTS usuario (
                         nome VARCHAR(80),
-                        usuario VARCHAR (20),
+                        usuario VARCHAR (20) primary key,
                         senha VARCHAR(20)
-                       );
+                    );
                     """)
         
         #comito a transação
@@ -72,38 +75,44 @@ class Janela_cadastro():
         conexao.close()
 
     def inserir_usuario(self):
+        try:
         
-        #crir conexao
-        conexao = sqlite3.connect ("./bd_lista_tarefa.sqlite")
+            #crir conexao
+            conexao = sqlite3.connect ("./bd_lista_tarefa.sqlite")
 
 
-    #criar cursor
-    cursor = conexao.cursor()
+            #criar cursor
+            cursor = conexao.cursor()
+            
+            nome =  self.caixinha_nome.get()
+            usuario = self.caixinha_usuario.get()
+            senha = self.caixinha_senha.get()
+
+                #execultar
+            cursor.execute("""
+                            INSERT INTO usuario
+                                (nome,
+                                usuario,
+                                senha)
+                            VALUES
+                                (?,
+                                ?,
+                                ?);
+                                """,
+                                [nome, 
+                                usuario, 
+                                senha]
+            )
+
+            conexao.commit()
+            conexao.close()
+
+            tkinter.messagebox.showinfo ("Cadastro Efetuado!")
+
+        except:    
+            tkinter.messagebox.showerror("Cadastro", "Erro de Cadastro")
     
-    nome =  self.caixinha_nome.get()
-    usuario = self.caixinha_usuario.get()
-    senha = self.caixinha_senha.get()
-    
-
-
-        #execultar
-    cursor.execute("""
-                      INSERT INTO usuario
-                        (nome,
-                        usuario,
-                        enha)
-                    VALUES
-                        (?,
-                         ?,
-                         ?);
-                        """,
-                        [nome, 
-                         usuario, 
-                         senha]
-    )
-
-
-
+   
 
 
     def run (self):

@@ -30,6 +30,7 @@ class Logar():
         self.adicionar.pack(side="left", padx= 20)
 
 
+
         #
         self.entrada = tk.Entry(frame_botao, width=50)
         self.entrada.pack(side="right")
@@ -74,7 +75,7 @@ class Logar():
 
 
         #abrindo a janela de login
-        Login(self.janela)    
+        janela_login = Login(self.janela)    
 
 
         #Escondendo a janela da lista tarefas
@@ -88,9 +89,19 @@ class Logar():
 
     def atualizar_lista(self):
         #Atualizar a lista
+
+        usuario_nome = (self.login.get())
+        usuario_senha = (self.login.get())
         conexao= sqlite3.connect("05_lista_tarefas/bd_lista_tarefa.sqlite")
 
         cursor= conexao.cursor()
+        cursor.execute(
+            """
+        select nome, usuario FROM usuario
+                WHERE usuario = ? and senha = ?;
+            """,
+            [usuario_nome, usuario_senha] 
+        )
 
         sql_para_criar_tabela = """select codigo, descricao_tarefa from tarefa;"""
         
