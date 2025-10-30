@@ -7,14 +7,15 @@ import sqlite3
 
 #criando uma classe
 class Login():
-    def __init__(self, janela_pai):
+    def __init__(self, classe_pai):
 
 
         #Estou tranformando o 
-        self.janela_pai = janela_pai
+        self.janela_pai = classe_pai.janela
+        self.classe_pai = classe_pai
 
         #criando uma janela 
-        self.janela = tk.Toplevel(janela_pai)
+        self.janela = tk.Toplevel(self.janela_pai)
         self.janela.title ("Login")
         self.janela.geometry("500x500")
 
@@ -93,6 +94,8 @@ class Login():
             messagebox.showinfo("LOGIN","LOGIN EFETUADO")
             self.janela.destroy()
             self.janela_pai.deiconify()
+            #estou enviando para a janela de tarefas qual o usuario que logou
+            self.classe_pai.usuario_logado= usuario
 
 
             # para fechar a primeira pagina 

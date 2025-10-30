@@ -6,6 +6,9 @@ from class_login import Login
 
 class Logar():
     def __init__(self):
+
+        #usuario que esta logado
+        self.usuario_logado = None
         
         # função que mostra a segunda pagina (janela)
         self.janela = tk.Tk()
@@ -58,11 +61,12 @@ class Logar():
         cursor= conexao.cursor()
 
         sql_para_criar_tabela = """
-                                        CREATE TABLE IF NOT EXISTS tarefa (
-                                        codigo integer primary key autoincrement,
-                                        descricao_tarefa varchar (200),
-                                        conclusao boolean
-                                        );
+                                CREATE TABLE IF NOT EXISTS tarefa (
+                                    codigo integer primary key autoincrement,
+                                    descricao_tarefa varchar(200),
+                                    conclusao boolean,
+                                    usuario VARCHAR(20)
+                                    );
                                 """
         cursor.execute(sql_para_criar_tabela)
 
@@ -75,7 +79,7 @@ class Logar():
 
 
         #abrindo a janela de login
-        janela_login = Login(self.janela)    
+        Login(self)    
 
 
         #Escondendo a janela da lista tarefas
@@ -116,11 +120,11 @@ class Logar():
 
         #aqui vai o sql do insert
         sql_insert = f"""
-                        INSERT INTO tarefa (descricao_tarefa) 
-                        VALUES (?)
+                        INSERT INTO tarefa (descricao_tarefa, usuario) 
+                        VALUES (?, ?)
                      """
         
-        cursor.execute(sql_insert,[dado])
+        cursor.execute(sql_insert,[dado, self.usuario_logado])
         
         conexao.commit()
         cursor.close()
