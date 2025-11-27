@@ -63,8 +63,61 @@ class Calculo():
         else:
             self.vazio2.configure(text="abaixo do peso")
 
-        
 
+        class Janela_imc():
+    def __init__(self):
+        self.janela = ttk.Window(themename="superhero") 
+        self.janela.title("Calculadora de IMC")
+        self.janela.geometry("800x400")
+
+        # para o peso
+        self.label_peso = ttk.Label(self.janela, text="Peso (kg):")
+        self.label_peso.pack()
+        self.entry_peso = ttk.Entry(self.janela)
+        self.entry_peso.pack()
+        # para a altura
+        self.label_altura = ttk.Label(self.janela, text="Altura (m):")
+        self.label_altura.pack()
+        self.entry_altura = ttk.Entry(self.janela)
+        self.entry_altura.pack()
+
+        self.label_resultado = ttk.Label(self.janela, text="")
+        self.label_resultado.pack()
+        botao_calcular = ttk.Button(self.janela,text='Calcular IMC',command=self.calcular_imc)
+        botao_calcular.pack()
+
+
+    def calcular_imc(self):
+        try:
+            peso_str = self.entry_peso.get()
+            altura_str = self.entry_altura.get()
+            peso = float(peso_str)
+            altura= float(altura_str)
+            imc = peso / altura**2
+        except:
+            tkinter.messagebox.showerror(title="ERRO", message="Você digitou um valor inválido.")
+            imc = round(imc,2)
+        if imc < 18.5:
+            self.label_resultado.config( text="Você está abaixo do peso")
+        
+        elif imc >= 18.5 and imc <= 24.9:
+            self.label_resultado.config( text="Você é normoponderal")
+        
+        elif imc >= 25 and imc <=29.9:
+            self.label_resultado.config(text="Você está na pré-obesidade")
+            
+        elif imc >= 30 and imc <= 34.9:
+            self.label_resultado.config(text="Você está com obesidade, grau I")
+            
+        elif imc >=35 and imc <=39.9:
+            self.label_resultado.config(text="Você está com obesidade, grau II")
+        
+        else:
+            self.label_resultado.config(text="Você está com obesidade mórbida")
+    def run(self):
+        self.janela.mainloop()
+
+    
 
 
     def run (self):
@@ -75,6 +128,10 @@ class Calculo():
 if __name__ =="__main__":
     calc = Calculo()
     calc.run()
+
+
+
+
 
 
 
